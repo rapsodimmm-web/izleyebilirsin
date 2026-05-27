@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İzle — izleyebilirsin</title>
+  <meta name="description" content="Film ve dizi izle. HD kalitesinde ücretsiz streaming.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- ── NAVBAR ───────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="navbar-logo">
+    <div class="logo-icon">▶</div>
+    <span class="logo-text">izleye<span>bilirsin</span></span>
+  </a>
+  <ul class="navbar-nav">
+    <li><a href="index.html">Ana Sayfa</a></li>
+    <li><a href="search.html?type=movie">Filmler</a></li>
+    <li><a href="search.html?type=tv">Diziler</a></li>
+  </ul>
+  <div class="navbar-actions">
+    <form id="navbar-search-form" class="search-wrapper">
+      <input id="navbar-search-input" type="text" class="search-input" placeholder="Ara..." autocomplete="off">
+      <button type="submit" class="search-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+</nav>
+
+<!-- ── LOADING STATE ─────────────────────────────────── -->
+<div id="player-loading" style="padding-top:140px">
+  <div class="state-container">
+    <div class="spinner"></div>
+    <div class="state-title" style="margin-top:14px">İçerik yükleniyor...</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ──────────────────────────────────── -->
+<div id="player-content" class="hidden player-page">
+
+  <!-- Cinema area -->
+  <div class="player-cinema">
+    <div class="player-cinema-bg" id="player-backdrop"></div>
+
+    <div class="player-wrap">
+
+      <!-- ── IFRAME ── -->
+      <div class="iframe-outer">
+        <div id="iframe-loading" class="player-loading-overlay">
+          <div class="spinner"></div>
+          <div class="player-loading-text">Video yükleniyor...</div>
+        </div>
+        <div class="iframe-aspect">
+          <iframe
+            id="player-iframe"
+            allowfullscreen
+            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+            referrerpolicy="no-referrer"
+            scrolling="no"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- ── SOURCE SELECTOR ── -->
+      <div class="source-selector">
+        <span class="source-label">📡 Kaynak:</span>
+        <div id="source-btns" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+        <span class="source-label" style="margin-left:auto;font-size:.75rem;opacity:.6">Video açılmıyorsa farklı kaynak deneyin</span>
+      </div>
+
+    </div><!-- /player-wrap -->
+  </div><!-- /player-cinema -->
+
+  <!-- ── INFO PANEL ───────────────────────────────────── -->
+  <div class="player-info-panel">
+
+    <!-- Poster col (desktop only) -->
+    <div class="player-poster-col">
+      <img id="player-poster" class="player-poster-img" src="" alt="" loading="lazy">
+
+      <!-- TV: Episode selector -->
+      <div id="episode-selector" class="episode-selector hidden">
+        <div class="episode-selector-title">📺 Bölüm Seç</div>
+        <div class="season-tabs" id="season-tabs"></div>
+        <div class="episode-grid" id="episode-grid"></div>
+        <!-- Next episode button -->
+        <button class="next-ep-btn hidden" id="next-ep-btn">
+          ▶ Sonraki Bölüm
+          <span id="next-ep-label" style="color:var(--text3);font-weight:400;font-size:.8rem"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Details col -->
+    <div class="player-details-col">
+      <h1 class="player-title" id="player-title">Yükleniyor...</h1>
+
+      <div class="player-meta-row" id="player-meta-row">
+        <span class="meta-chip gold">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span id="player-rating">—</span>
+          <span id="player-vote-count" style="font-size:.72rem;font-weight:400;color:var(--text3)"></span>
+        </span>
+        <span class="meta-chip" id="player-year"></span>
+        <span class="meta-chip type-chip" id="player-type"></span>
+      </div>
+
+      <!-- Rating bar -->
+      <div class="rating-bar-wrap" id="rating-bar-wrap" style="display:none">
+        <div class="rating-bar-label">
+          <span>İzleyici Puanı</span>
+          <span id="rating-bar-pct"></span>
+        </div>
+        <div class="rating-bar">
+          <div class="rating-bar-fill" id="rating-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="player-genres" id="player-genres"></div>
+
+      <p class="player-plot" id="player-plot"></p>
+
+      <div class="player-crew hidden" id="player-crew"></div>
+
+      <!-- Action buttons -->
+      <div class="player-action-btns">
+        <button class="btn-icon" id="player-fav-btn">🤍 Favorilere Ekle</button>
+        <button class="btn-icon" onclick="document.querySelector('.player-cinema').scrollIntoView({behavior:'smooth'})">
+          ▶ Oynatıcıya Git
+        </button>
+        <a href="index.html" class="btn-icon" style="text-decoration:none">← Ana Sayfa</a>
+      </div>
+
+      <!-- Keyboard shortcuts hint -->
+      <div id="kb-hint-wrap" style="margin-top:14px"></div>
+
+      <!-- TV: Episode selector for mobile -->
+      <div id="episode-selector-mobile" class="episode-selector hidden" style="margin-top:0">
+        <div class="episode-selector-title">📺 Bölüm Seç</div>
+        <div class="season-tabs" id="season-tabs-mobile"></div>
+        <div class="episode-grid" id="episode-grid-mobile"></div>
+        <button class="next-ep-btn hidden" id="next-ep-btn-mobile">
+          ▶ Sonraki Bölüm
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /player-info-panel -->
+
+  <!-- ── CAST ──────────────────────────────────────────── -->
+  <div class="cast-section hidden" id="cast-section">
+    <div class="section-header">
+      <h2 class="section-title"><span class="section-title-bar"></span>🎭 Oyuncu Kadrosu</h2>
+    </div>
+    <div class="cast-row" id="cast-row"></div>
+  </div>
+
+  <!-- ── SIMILAR ───────────────────────────────────────── -->
+  <div id="similar-section" class="section" style="max-width:1400px;margin:0 auto">
+    <div class="section-header">
+      <h2 class="section-title"><span class="section-title-bar"></span>🎯 Benzer İçerikler</h2>
+    </div>
+    <div class="card-row-wrapper">
+      <button class="row-arrow row-arrow-left">‹</button>
+      <div class="card-row" id="similar-row"></div>
+      <button class="row-arrow row-arrow-right">›</button>
+    </div>
+  </div>
+
+</div><!-- /player-content -->
+
+<!-- ── MOBILE BOTTOM NAV ──────────────────────────────── -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-btn">
+      <span class="nav-icon">🏠</span>Ana Sayfa
+    </a>
+    <a href="search.html?type=movie" class="mobile-nav-btn">
+      <span class="nav-icon">🎬</span>Filmler
+    </a>
+    <a href="search.html?type=tv" class="mobile-nav-btn">
+      <span class="nav-icon">📺</span>Diziler
+    </a>
+    <a href="search.html" class="mobile-nav-btn">
+      <span class="nav-icon">🔍</span>Ara
+    </a>
+  </div>
+</nav>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-content">
+    <div class="logo-text">izleye<span style="color:var(--accent)">bilirsin</span></div>
+    <div class="footer-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="search.html?type=movie">Filmler</a>
+      <a href="search.html?type=tv">Diziler</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 izleyebilirsin · İçerikler üçüncü taraf servisler aracılığıyla sunulmaktadır.</p>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "izleyebilirsin",
+  "version": "1.0.0",
+  "description": "Türkçe film ve dizi streaming sitesi",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests\" && exit 0"
+  },
+  "keywords": ["streaming", "film", "dizi", "türkçe"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "http-proxy-middleware": "^3.0.5"
+  }
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arama — izleyebilirsin</title>
+  <meta name="description" content="Film ve dizi ara. Binlerce içerik içinden arayın.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- ── NAVBAR ───────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="navbar-logo">
+    <div class="logo-icon">▶</div>
+    <span class="logo-text">izleye<span>bilirsin</span></span>
+  </a>
+  <ul class="navbar-nav">
+    <li><a href="index.html">Ana Sayfa</a></li>
+    <li><a href="search.html?type=movie">Filmler</a></li>
+    <li><a href="search.html?type=tv">Diziler</a></li>
+  </ul>
+  <div class="navbar-actions">
+    <form id="navbar-search-form" class="search-wrapper">
+      <input id="navbar-search-input" type="text" class="search-input" placeholder="Ara..." autocomplete="off">
+      <button type="submit" class="search-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+</nav>
+
+<!-- ── SEARCH PAGE ───────────────────────────────────── -->
+<div class="search-page">
+
+  <!-- Big search -->
+  <div class="search-hero">
+    <h1>Arama <span>Yap</span></h1>
+    <form id="big-search-form" class="big-search-wrapper">
+      <input
+        id="big-search-input"
+        type="text"
+        class="big-search-input"
+        placeholder="Film veya dizi adı yazın..."
+        autocomplete="off"
+        autofocus
+      >
+      <button type="submit" class="big-search-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>
+
+    <!-- Tabs -->
+    <div class="search-tabs">
+      <button class="search-tab active" data-tab="movie">🎬 Filmler</button>
+      <button class="search-tab" data-tab="tv">📺 Diziler</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="search-results-section">
+    <div id="results-count" class="results-count"></div>
+
+    <!-- State (loading / empty / initial) -->
+    <div id="search-state" class="state-container">
+      <div class="state-icon">🎬</div>
+      <div class="state-title">Ne izlemek istersiniz?</div>
+      <div class="state-text">Film veya dizi adı yazarak arama yapın.</div>
+    </div>
+
+    <!-- Results container -->
+    <div id="results-container" class="hidden">
+      <div id="results-grid" class="content-grid"></div>
+      <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+        <button class="load-more-btn" id="load-more-btn">
+          <span id="load-more-text">⬇ Daha Fazla Yükle</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── MOBILE BOTTOM NAV ──────────────────────────────── -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-btn">
+      <span class="nav-icon">🏠</span>Ana Sayfa
+    </a>
+    <a href="search.html?type=movie" class="mobile-nav-btn">
+      <span class="nav-icon">🎬</span>Filmler
+    </a>
+    <a href="search.html?type=tv" class="mobile-nav-btn">
+      <span class="nav-icon">📺</span>Diziler
+    </a>
+    <a href="search.html" class="mobile-nav-btn active">
+      <span class="nav-icon">🔍</span>Ara
+    </a>
+  </div>
+</nav>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-content">
+    <div class="logo-text">izleye<span style="color:var(--accent)">bilirsin</span></div>
+    <div class="footer-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="search.html?type=movie">Filmler</a>
+      <a href="search.html?type=tv">Diziler</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 izleyebilirsin · İçerikler üçüncü taraf servisler aracılığıyla sunulmaktadır.</p>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/search.js"></script>
+</body>
+</html>

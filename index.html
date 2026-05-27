@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>izleyebilirsin — Film ve Dizi İzle</title>
+  <meta name="description" content="Binlerce film ve diziyi ücretsiz izleyin. Trend içerikler, yeni çıkan filmler ve en iyi diziler sizi bekliyor.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- ── NAVBAR ───────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="navbar-logo">
+    <div class="logo-icon">▶</div>
+    <span class="logo-text">izleye<span>bilirsin</span></span>
+  </a>
+
+  <ul class="navbar-nav">
+    <li><a href="index.html" class="active">Ana Sayfa</a></li>
+    <li><a href="search.html?type=movie">Filmler</a></li>
+    <li><a href="search.html?type=tv">Diziler</a></li>
+    <li><a href="search.html?type=movie" id="nav-random-link" style="color:var(--accent)">🎲 Rastgele</a></li>
+  </ul>
+
+  <div class="navbar-actions">
+    <form id="navbar-search-form" class="search-wrapper">
+      <input id="navbar-search-input" type="text" class="search-input" placeholder="Ara..." autocomplete="off">
+      <button type="submit" class="search-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-backdrop" id="hero-backdrop"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Bu Hafta Trend</div>
+    <h1 class="hero-title" id="hero-title">Yükleniyor...</h1>
+    <div class="hero-meta">
+      <span class="hero-rating">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span id="hero-rating">—</span>
+      </span>
+      <span class="hero-year" id="hero-year"></span>
+    </div>
+    <div class="hero-genres" id="hero-genres"></div>
+    <p class="hero-plot" id="hero-plot"></p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" id="hero-play-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Şimdi İzle
+      </a>
+      <button class="btn-random" id="hero-random-btn" title="Rastgele Film/Dizi Öner">
+        🎲 Ne İzlesem?
+      </button>
+      <button class="btn-secondary hidden" id="hero-trailer-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Fragman
+      </button>
+    </div>
+  </div>
+  <div class="hero-indicators" id="hero-indicators"></div>
+</section>
+
+<!-- ── GENRE FILTER ──────────────────────────────────── -->
+<div class="section-sm">
+  <div class="genre-filter" id="genre-filter">
+    <button class="genre-pill active" data-genre="all">Tümü</button>
+  </div>
+</div>
+
+<!-- ── CONTINUE WATCHING ─────────────────────────────── -->
+<section class="section hidden" id="continue-section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-title-bar"></span>
+      ⏯️ Devam Et
+    </h2>
+  </div>
+  <div class="card-row-wrapper">
+    <button class="row-arrow row-arrow-left">‹</button>
+    <div class="card-row" id="continue-row"></div>
+    <button class="row-arrow row-arrow-right">›</button>
+  </div>
+</section>
+
+<!-- ── TRENDING MOVIES ────────────────────────────────── -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-title-bar"></span>
+      🎬 Trend Filmler
+    </h2>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="time-toggle" id="movies-time-toggle">
+        <button class="time-btn active" data-window="week">Bu Hafta</button>
+        <button class="time-btn" data-window="day">Bugün</button>
+      </div>
+      <a href="search.html?type=movie" class="section-link">
+        Tümünü Gör
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="card-row-wrapper">
+    <button class="row-arrow row-arrow-left">‹</button>
+    <div class="card-row" id="movies-row">
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+    </div>
+    <button class="row-arrow row-arrow-right">›</button>
+  </div>
+</section>
+
+<!-- ── TOP 10 FİLMLER ─────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-title-bar"></span>
+      🔥 Top 10 Bu Hafta
+    </h2>
+  </div>
+  <div class="card-row-wrapper">
+    <button class="row-arrow row-arrow-left">‹</button>
+    <div class="card-row" id="top10-row">
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+    </div>
+    <button class="row-arrow row-arrow-right">›</button>
+  </div>
+</section>
+
+<!-- ── TRENDING TV ────────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-title-bar"></span>
+      📺 Trend Diziler
+    </h2>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="time-toggle" id="tv-time-toggle">
+        <button class="time-btn active" data-window="week">Bu Hafta</button>
+        <button class="time-btn" data-window="day">Bugün</button>
+      </div>
+      <a href="search.html?type=tv" class="section-link">
+        Tümünü Gör
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="card-row-wrapper">
+    <button class="row-arrow row-arrow-left">‹</button>
+    <div class="card-row" id="tv-row">
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+    </div>
+    <button class="row-arrow row-arrow-right">›</button>
+  </div>
+</section>
+
+<!-- ── FAVORITES ──────────────────────────────────────── -->
+<section class="section hidden" id="favorites-section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-title-bar"></span>
+      ❤️ Favorilerim
+    </h2>
+  </div>
+  <div class="card-row-wrapper">
+    <button class="row-arrow row-arrow-left">‹</button>
+    <div class="card-row" id="favorites-row"></div>
+    <button class="row-arrow row-arrow-right">›</button>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-content">
+    <div class="logo-text">izleye<span style="color:var(--accent)">bilirsin</span></div>
+    <div class="footer-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="search.html?type=movie">Filmler</a>
+      <a href="search.html?type=tv">Diziler</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 izleyebilirsin · İçerikler üçüncü taraf servisler aracılığıyla sunulmaktadır.</p>
+  </div>
+</footer>
+
+<!-- ── MOBILE BOTTOM NAV ──────────────────────────────── -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-btn active">
+      <span class="nav-icon">🏠</span>Ana Sayfa
+    </a>
+    <a href="search.html?type=movie" class="mobile-nav-btn">
+      <span class="nav-icon">🎬</span>Filmler
+    </a>
+    <button class="mobile-nav-btn" id="mobile-random-btn">
+      <span class="nav-icon">🎲</span>Rastgele
+    </button>
+    <a href="search.html?type=tv" class="mobile-nav-btn">
+      <span class="nav-icon">📺</span>Diziler
+    </a>
+    <a href="search.html" class="mobile-nav-btn">
+      <span class="nav-icon">🔍</span>Ara
+    </a>
+  </div>
+</nav>
+
+<!-- ── TRAILER MODAL ──────────────────────────────────── -->
+<div class="trailer-modal hidden" id="trailer-modal">
+  <div class="trailer-modal-inner">
+    <button class="trailer-close" id="trailer-close">✕</button>
+    <div class="trailer-iframe-wrapper">
+      <iframe id="trailer-iframe" allowfullscreen allow="autoplay"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ── RANDOM PICK MODAL ──────────────────────────────── -->
+<div class="random-modal hidden" id="random-modal">
+  <div class="random-card">
+    <div id="random-card-media"></div>
+    <div class="random-card-body">
+      <div class="random-card-label">🎲 Rastgele Seçim</div>
+      <div class="random-card-title" id="random-title">Yükleniyor...</div>
+      <div class="random-card-meta">
+        <span class="movie-card-rating" style="font-size:.9rem">★ <span id="random-rating"></span></span>
+        <span style="color:var(--text3);font-size:.85rem" id="random-year"></span>
+        <span style="color:var(--text3);font-size:.85rem" id="random-type-label"></span>
+      </div>
+      <p class="random-card-plot" id="random-plot"></p>
+      <div class="random-card-btns">
+        <a href="#" class="btn-primary" id="random-play-btn" style="flex:1;justify-content:center;padding:12px 20px">
+          ▶ Şimdi İzle
+        </a>
+        <button class="btn-secondary" id="random-again-btn" style="padding:12px 16px" title="Başka öner">
+          🔄
+        </button>
+        <button class="btn-secondary" id="random-close-btn" style="padding:12px 16px" title="Kapat">
+          ✕
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.trailer-modal { position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px); }
+.trailer-modal-inner { position:relative;width:90%;max-width:940px; }
+.trailer-close { position:absolute;top:-44px;right:0;background:none;border:none;color:#fff;font-size:30px;cursor:pointer;transition:color .2s; }
+.trailer-close:hover { color:var(--accent); }
+.trailer-iframe-wrapper { position:relative;padding-bottom:56.25%;border-radius:var(--radius-md);overflow:hidden; }
+.trailer-iframe-wrapper iframe { position:absolute;inset:0;width:100%;height:100%;border:none; }
+</style>
+
+<script src="js/api.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>
