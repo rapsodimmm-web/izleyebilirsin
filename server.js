@@ -2,9 +2,12 @@ const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require('path');
 
-const app = express();
+const app  = express();
 const PORT = process.env.PORT || 3300;
 
+// ── Crash guard ───────────────────────────────────────────────────────────────
+process.on('uncaughtException',  err => console.error('[UncaughtException]',  err.message));
+process.on('unhandledRejection', err => console.error('[UnhandledRejection]', err));
 
 // ── CORS proxy for 2embed.cc API ──────────────────────────────────────────────
 app.use(
@@ -15,13 +18,15 @@ app.use(
     pathRewrite: { '^/api': '' },
     on: {
       proxyRes: (proxyRes) => {
-        proxyRes.headers['access-control-allow-origin'] = '*';
+        proxyRes.headers['access-control-allow-origin']  = '*';
         proxyRes.headers['access-control-allow-methods'] = 'GET,OPTIONS';
         proxyRes.headers['access-control-allow-headers'] = 'Content-Type';
       },
       error: (err, req, res) => {
         console.error('[Proxy Error]', err.message);
-        res.status(502).json({ error: 'Upstream API unavailable', detail: err.message });
+        if (!res.headersSent) {
+          res.status(502).json({ error: 'Upstream API unavailable', detail: err.message });
+        }
       },
     },
   })
